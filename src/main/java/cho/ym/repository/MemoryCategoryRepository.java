@@ -32,10 +32,10 @@ public class MemoryCategoryRepository implements CategoryRepository{
     }
 
     @Override
-    public Category findByName(String name) {
+    public List<Category> findByName(String name) {
         return memory.values()
                 .stream()
-                .filter(category -> category.getName().equals(name)).findFirst().get();
+                .filter(category -> category.getName().equals(name)).toList();
     }
 
     @Override

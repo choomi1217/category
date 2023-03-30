@@ -9,7 +9,7 @@ public interface CategoryRepository {
 
     Category findById(long id);
 
-    Category findByName(String name);
+    List<Category> findByName(String name);
 
     List<Category> findAllChildById(long id);
 }
