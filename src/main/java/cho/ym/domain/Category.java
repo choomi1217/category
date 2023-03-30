@@ -15,7 +15,7 @@ public class Category {
 
     private List<Long> parentIds;
 
-    private List<Long> boardId;
+    private List<Long> boardIds;
 
     public void addChild(Category childCategory){
         childIds.add(childCategory.getId());
@@ -31,7 +31,7 @@ public class Category {
     }
 
     public void addBoard(Long id){
-        boardId.add(id);
+        boardIds.add(id);
     }
 
     private void addParent(Long parentId){

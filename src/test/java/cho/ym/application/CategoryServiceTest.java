@@ -83,10 +83,12 @@ class CategoryServiceTest {
 
     @Test
     public void findAllChildByIdFormatJSON() throws IOException {
-        setCategories();
+        setBoards();
         ObjectMapper mapper = new ObjectMapper();
         String s = mapper.writeValueAsString(categoryService.findAllChildByIdFormatJSON(1L));
+        String s2 = mapper.writeValueAsString(categoryService.findAllChildByIdFormatJSON(11L));
         System.out.println(s);
+        System.out.println(s2);
     }
 
     @Test
@@ -94,7 +96,7 @@ class CategoryServiceTest {
         setCategories();
         Category chen = categoryService.findByName("chen");
         Board board = boardService.save(Board.builder().title("1").build(), chen);
-        assertEquals(chen.getBoardId().stream().filter(id->id.equals(board.getId())).findFirst().get(), 1L);
+        assertEquals(chen.getBoardIds().stream().filter(id->id.equals(board.getId())).findFirst().get(), 1L);
     }
 
     private void setCategories(){

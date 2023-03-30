@@ -17,7 +17,7 @@ public class MemoryCategoryRepository implements CategoryRepository{
                 .name(category.getName())
                 .childIds(new ArrayList<Long>())
                 .parentIds(new ArrayList<Long>())
-                .boardId(new ArrayList<Long>())
+                .boardIds(new ArrayList<Long>())
                 .build();
 
         memory.put(id, savingCategory);

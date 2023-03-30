@@ -42,7 +42,8 @@ public class CategoryService {
                         .stream()
                         .map(id -> categoryRepository.findById(id))
                         .map(this::categoryResponse)
-                        .toList()
+                        .toList(),
+                category.getBoardIds().stream().toList()
         );
     }
 }
