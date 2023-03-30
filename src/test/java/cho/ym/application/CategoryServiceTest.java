@@ -2,9 +2,11 @@ package cho.ym.application;
 
 import cho.ym.domain.Category;
 import cho.ym.repository.MemoryCategoryRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -106,9 +108,11 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void findAllChildByIdFormatJSON(){
+    public void findAllChildByIdFormatJSON() throws IOException {
         setting();
-        categoryService.findAllChildByIdFormatJSON(1L);
+        ObjectMapper mapper = new ObjectMapper();
+        String s = mapper.writeValueAsString(categoryService.findAllChildByIdFormatJSON(1L));
+        System.out.println(s);
     }
 
     private void setting(){

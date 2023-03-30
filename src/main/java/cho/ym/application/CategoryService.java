@@ -1,5 +1,6 @@
 package cho.ym.application;
 
+import cho.ym.application.response.CategoryResponse;
 import cho.ym.domain.Category;
 import cho.ym.repository.CategoryRepository;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 public class CategoryService {
     CategoryRepository categoryRepository;
+
     public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
@@ -30,7 +32,19 @@ public class CategoryService {
     }
 
 
-    public void findAllChildByIdFormatJSON(long id) {
+    public CategoryResponse findAllChildByIdFormatJSON(long id) {
+        return categoryResponse(categoryRepository.findById(id));
+    }
 
+    private CategoryResponse categoryResponse(Category category) {
+        return new CategoryResponse(
+                category.getId(),
+                category.getName(),
+                category.getChildIds()
+                        .stream()
+                        .map(id -> categoryRepository.findById(id))
+                        .map(this::categoryResponse)
+                        .toList()
+        );
     }
 }
