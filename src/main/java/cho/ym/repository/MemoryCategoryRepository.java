@@ -17,6 +17,7 @@ public class MemoryCategoryRepository implements CategoryRepository{
                 .name(category.getName())
                 .childIds(new ArrayList<Long>())
                 .parentIds(new ArrayList<Long>())
+                .boardIds(new ArrayList<Long>())
                 .build();
 
         memory.put(id, savingCategory);
@@ -57,5 +58,6 @@ public class MemoryCategoryRepository implements CategoryRepository{
 
     public void clear() {
         this.memory.clear();
+        this.sequence = 0L;
     }
 }
