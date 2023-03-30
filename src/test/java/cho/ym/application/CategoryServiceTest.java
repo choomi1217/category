@@ -70,9 +70,10 @@ class CategoryServiceTest {
 
     @Test
     public void findByName(){
-        setCategories();
-        Category category1 = categoryService.findByName("man");
-        assertEquals("man", category1.getName());
+        Category man = categoryService.save(Category.builder().name("man").build());
+        Category man2 = categoryService.save(Category.builder().name("man").build());
+        List<Category> findByName = categoryService.findByName("man");
+        assertEquals(2, findByName.size());
     }
 
     @Test
@@ -95,7 +96,7 @@ class CategoryServiceTest {
     @Test
     public void addBoardToCategory(){
         setCategories();
-        Category chen = categoryService.findByName("chen");
+        Category chen = categoryService.findByName("chen").get(0);
         Board board = boardService.save(Board.builder().title("1").build(), chen);
         assertEquals(chen.getBoardIds().stream().filter(id->id.equals(board.getId())).findFirst().get(), 1L);
     }
@@ -126,14 +127,14 @@ class CategoryServiceTest {
     private void setBoards() {
         setCategories();
         Category notice = categoryService.findById(3L);
-        Category chen = categoryService.findByName("chen");
-        Category bakhyeon = categoryService.findByName("bakhyeon");
-        Category xiumin = categoryService.findByName("xiumin");
+        Category chen = categoryService.findByName("chen").get(0);
+        Category bakhyeon = categoryService.findByName("bakhyeon").get(0);
+        Category xiumin = categoryService.findByName("xiumin").get(0);
         Category notice2 = categoryService.findById(8L);
-        Category unknown = categoryService.findByName("unknown");
-        Category view = categoryService.findByName("view");
+        Category unknown = categoryService.findByName("unknown").get(0);
+        Category view = categoryService.findByName("view").get(0);
         Category notice3 = categoryService.findById(13L);
-        Category rose = categoryService.findByName("rose");
+        Category rose = categoryService.findByName("rose").get(0);
         Board first = boardService.save(Board.builder().title("1").build(), notice);
         Board second = boardService.save(Board.builder().title("2").build(), chen);
         Board third = boardService.save(Board.builder().title("3").build(), bakhyeon);
