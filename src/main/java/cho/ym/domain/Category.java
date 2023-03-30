@@ -15,10 +15,9 @@ public class Category {
 
     private List<Long> parentIds;
 
+    private List<Long> boardId;
+
     public void addChild(Category childCategory){
-        /*if (childCategory.getChildIds().size() > 0){
-            childIds.addAll(childCategory.getChildIds());
-        }*/
         childIds.add(childCategory.getId());
         //add parent when add child
         childCategory.addParent(this.id);
@@ -26,16 +25,13 @@ public class Category {
 
     public void addChild(List<Category> childCategories){
         childCategories.stream().forEach(category -> {
-            /*if (category.getChildIds().size() > 0){
-                childIds.addAll(category.getChildIds());
-            }*/
             childIds.add(category.getId());
             category.addParent(this.id);
         });
     }
 
     public void addBoard(Long id){
-        this.childIds.add(id);
+        boardId.add(id);
     }
 
     private void addParent(Long parentId){

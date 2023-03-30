@@ -1,6 +1,8 @@
 package cho.ym.application;
 
+import cho.ym.domain.Board;
 import cho.ym.domain.Category;
+import cho.ym.repository.MemoryBoardRepository;
 import cho.ym.repository.MemoryCategoryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -16,13 +18,16 @@ class CategoryServiceTest {
     MemoryCategoryRepository memoryCategoryRepository = new MemoryCategoryRepository();
     CategoryService categoryService = new CategoryService(memoryCategoryRepository);
 
+    MemoryBoardRepository memoryBoardRepository = new MemoryBoardRepository();
+    BoardService boardService = new BoardService(memoryBoardRepository);
+
     @AfterEach
     public void clearMemory(){
         memoryCategoryRepository.clear();
     }
 
     @Test
-    public void create_category(){
+    public void createCategory(){
         Category test = Category.builder().name("test").build();
         Category testCategory = categoryService.save(test);
         assertEquals(1L, testCategory.getId());
@@ -31,7 +36,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void insert_to_parent(){
+    public void insertToParent(){
         Category parent = categoryService.save(Category.builder().name("parent").build());
         Category child = categoryService.save(Category.builder().name("child").build());
         parent.addChild(child);
@@ -42,7 +47,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    public void insert_to_grandparent(){
+    public void insertToGrandparent(){
         Category grand = categoryService.save(Category.builder().name("grand").build());
         Category parent = categoryService.save(Category.builder().name("parent").build());
         Category child = categoryService.save(Category.builder().name("child").build());
@@ -57,34 +62,42 @@ class CategoryServiceTest {
 
     @Test
     public void findById(){
-        setting();
+        setCategories();
         Category category1 = categoryService.findById(1L);
         assertEquals(1L, category1.getId());
     }
 
     @Test
     public void findByName(){
-        setting();
+        setCategories();
         Category category1 = categoryService.findByName("man");
         assertEquals("man", category1.getName());
     }
 
     @Test
     public void findAllChildById(){
-        setting();
+        setCategories();
         List<Category> categories = categoryService.findAllChildById(1L);
         assertEquals(2, categories.size());
     }
 
     @Test
     public void findAllChildByIdFormatJSON() throws IOException {
-        setting();
+        setCategories();
         ObjectMapper mapper = new ObjectMapper();
         String s = mapper.writeValueAsString(categoryService.findAllChildByIdFormatJSON(1L));
         System.out.println(s);
     }
 
-    private void setting(){
+    @Test
+    public void addBoardToCategory(){
+        setCategories();
+        Category chen = categoryService.findByName("chen");
+        Board board = boardService.save(Board.builder().title("1").build(), chen);
+        assertEquals(chen.getBoardId().stream().filter(id->id.equals(board.getId())).findFirst().get(), 1L);
+    }
+
+    private void setCategories(){
         Category man = categoryService.save(Category.builder().name("man").build());
         Category exo = categoryService.save(Category.builder().name("exo").build());
         Category notice = categoryService.save(Category.builder().name("notice").build());
@@ -106,6 +119,27 @@ class CategoryServiceTest {
 
         man.addChild(List.of(exo, bts));
         woman.addChild(blackpink);
+    }
+    private void setBoards() {
+        setCategories();
+        Category notice = categoryService.findById(3L);
+        Category chen = categoryService.findByName("chen");
+        Category bakhyeon = categoryService.findByName("bakhyeon");
+        Category xiumin = categoryService.findByName("xiumin");
+        Category notice2 = categoryService.findById(8L);
+        Category unknown = categoryService.findByName("unknown");
+        Category view = categoryService.findByName("view");
+        Category notice3 = categoryService.findById(13L);
+        Category rose = categoryService.findByName("rose");
+        Board first = boardService.save(Board.builder().title("1").build(), notice);
+        Board second = boardService.save(Board.builder().title("2").build(), chen);
+        Board third = boardService.save(Board.builder().title("3").build(), bakhyeon);
+        Board fourth = boardService.save(Board.builder().title("4").build(), xiumin);
+        Board fifth = boardService.save(Board.builder().title("5").build(), notice2);
+        Board sixth = boardService.save(Board.builder().title("6").build(), unknown);
+        Board seventh = boardService.save(Board.builder().title("7").build(), view);
+        Board eighth = boardService.save(Board.builder().title("8").build(), notice3);
+        Board ninth = boardService.save(Board.builder().title("9").build(), rose);
     }
 
 }

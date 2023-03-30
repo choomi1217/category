@@ -1,6 +1,7 @@
  package cho.ym.application;
 
 import cho.ym.domain.Board;
+import cho.ym.domain.Category;
 import cho.ym.repository.BoardRepository;
 import cho.ym.repository.MemoryBoardRepository;
 
@@ -10,7 +11,9 @@ public class BoardService {
         boardRepository = memoryBoardRepository;
     }
 
-    public Board save(Board board) {
-        return boardRepository.save(board);
+    public Board save(Board board, Category category) {
+        Board save = boardRepository.save(board);
+        category.addBoard(save.getId());
+        return save;
     }
 }

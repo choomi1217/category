@@ -18,7 +18,6 @@ public class MemoryBoardRepository implements BoardRepository{
         Board saveBoard = Board.builder()
                 .id(id)
                 .title(board.getTitle())
-                .categories(new ArrayList<Category>())
                 .build();
         memory.put(id, saveBoard);
         return saveBoard;
