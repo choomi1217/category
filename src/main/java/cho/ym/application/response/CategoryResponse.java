@@ -1,31 +1,18 @@
 package cho.ym.application.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CategoryResponse {
 
     private long id;
     private String name;
     private List<CategoryResponse> children;
 
-    public CategoryResponse() {
-    }
-
-    public CategoryResponse(long id, String name, List<CategoryResponse> children) {
-        this.id = id;
-        this.name = name;
-        this.children = children;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<CategoryResponse> getChildren() {
-        return children;
-    }
 }

@@ -4,8 +4,6 @@ import cho.ym.application.response.CategoryResponse;
 import cho.ym.domain.Category;
 import cho.ym.repository.CategoryRepository;
 
-import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 public class CategoryService {

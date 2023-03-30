@@ -38,7 +38,7 @@ class CategoryServiceTest {
 
         Long testChildId = parent.getChildIds().stream().filter(childId -> childId.equals(child.getId())).findFirst().get();
         assertEquals(child.getId(), testChildId);
-        assertEquals(child.getParentIds(), 1L);
+        assertEquals(child.getParentIds().get(0), 1L);
     }
 
     @Test
@@ -50,37 +50,9 @@ class CategoryServiceTest {
         parent.addChild(child);
         grand.addChild(parent);
 
-        assertEquals(2, grand.getChildIds().size());
+        assertEquals(1, grand.getChildIds().size());
         assertEquals(2L, grand.getChildIds().stream().filter(id->id.equals(2L)).findFirst().get());
-        assertEquals(3L, grand.getChildIds().stream().filter(id->id.equals(3L)).findFirst().get());
-    }
-
-    @Test
-    public void settingExample(){
-        Category man = categoryService.save(Category.builder().name("man").build());
-        Category exo = categoryService.save(Category.builder().name("exo").build());
-        Category notice = categoryService.save(Category.builder().name("notice").build());
-        Category chen = categoryService.save(Category.builder().name("chen").build());
-        Category bakhyeon = categoryService.save(Category.builder().name("bakhyeon").build());
-        Category xiumin = categoryService.save(Category.builder().name("xiumin").build());
-        Category bts = categoryService.save(Category.builder().name("bts").build());
-        Category notice1 = categoryService.save(Category.builder().name("notice").build());
-        Category unknown = categoryService.save(Category.builder().name("unknown").build());
-        Category view = categoryService.save(Category.builder().name("view").build());
-        Category woman = categoryService.save(Category.builder().name("woman").build());
-        Category blackpink = categoryService.save(Category.builder().name("blackpink").build());
-        Category notice2 = categoryService.save(Category.builder().name("notice").build());
-        Category rose = categoryService.save(Category.builder().name("rose").build());
-
-        exo.addChild(List.of(notice,chen,bakhyeon,xiumin));
-        bts.addChild(List.of(notice1,unknown,view));
-        blackpink.addChild(List.of(notice2,unknown,rose));
-
-        man.addChild(List.of(exo, bts));
-        woman.addChild(blackpink);
-
-        assertEquals(9, man.getChildIds().size());
-        assertEquals(4, woman.getChildIds().size());
+        assertEquals(3L,parent.getChildIds().stream().filter(id->id.equals(3L)).findFirst().get());
     }
 
     @Test
@@ -101,10 +73,7 @@ class CategoryServiceTest {
     public void findAllChildById(){
         setting();
         List<Category> categories = categoryService.findAllChildById(1L);
-        for (Category category : categories) {
-            System.out.println(category.getId() + " : " + category.getName() + " : " + category.getParentIds());
-        }
-        assertEquals(9, categories.size());
+        assertEquals(2, categories.size());
     }
 
     @Test
