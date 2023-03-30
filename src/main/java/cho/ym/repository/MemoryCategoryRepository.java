@@ -58,5 +58,6 @@ public class MemoryCategoryRepository implements CategoryRepository{
 
     public void clear() {
         this.memory.clear();
+        this.sequence = 0L;
     }
 }

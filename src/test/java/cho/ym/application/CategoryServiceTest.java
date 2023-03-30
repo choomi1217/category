@@ -6,6 +6,7 @@ import cho.ym.repository.MemoryBoardRepository;
 import cho.ym.repository.MemoryCategoryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ class CategoryServiceTest {
     MemoryBoardRepository memoryBoardRepository = new MemoryBoardRepository();
     BoardService boardService = new BoardService(memoryBoardRepository);
 
-    @AfterEach
+    @BeforeEach
     public void clearMemory(){
         memoryCategoryRepository.clear();
     }
